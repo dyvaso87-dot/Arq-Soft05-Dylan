@@ -1,94 +1,73 @@
-﻿using CitasApp.Models;
+﻿using CitasApp.Interfaces;
+using CitasApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CitasApp.Controllers
 {
     public class CitaController : Controller
     {
-        private static List<Paciente> _pacientes = new()
-        {
-            new Paciente { Id = 1, Nombre = "Ana",   Apellido = "García"   },
-            new Paciente { Id = 2, Nombre = "Luis",  Apellido = "Martínez" },
-            new Paciente { Id = 3, Nombre = "María", Apellido = "López"    },
-        };
+        private readonly ICitaRepository _citaRepo;
+        private readonly IPacienteRepository _pacienteRepo;
+        private readonly IMedicoRepository _medicoRepo;
 
-        private static List<Medico> _medicos = new()
+        public CitaController(ICitaRepository citaRepo,
+                              IPacienteRepository pacienteRepo,
+                              IMedicoRepository medicoRepo)
         {
-            new Medico { Id = 1, Nombre = "Carlos",   Apellido = "Reyes"   },
-            new Medico { Id = 2, Nombre = "Patricia", Apellido = "Vega"    },
-            new Medico { Id = 3, Nombre = "Roberto",  Apellido = "Sánchez" },
-        };
-
-        private static List<Cita> _citas = new()
-        {
-            new Cita { Id = 1, PacienteId = 1, MedicoId = 1, Fecha = new DateOnly(2026, 6, 1), Hora = new TimeOnly(9,  0), Motivo = "Consulta general",      Estado = "Confirmada" },
-            new Cita { Id = 2, PacienteId = 2, MedicoId = 2, Fecha = new DateOnly(2026, 6, 1), Hora = new TimeOnly(10, 0), Motivo = "Revisión de resultados", Estado = "Pendiente"  },
-            new Cita { Id = 3, PacienteId = 3, MedicoId = 1, Fecha = new DateOnly(2026, 6, 3), Hora = new TimeOnly(11, 0), Motivo = "Primera consulta",       Estado = "Pendiente"  },
-        };
+            _citaRepo = citaRepo;
+            _pacienteRepo = pacienteRepo;
+            _medicoRepo = medicoRepo;
+        }
 
         private void CargarViewBag()
         {
-            ViewBag.Pacientes = _pacientes;
-            ViewBag.Medicos = _medicos;
+            ViewBag.Pacientes = _pacienteRepo.ObtenerTodos();
+            ViewBag.Medicos = _medicoRepo.ObtenerTodos();
         }
 
         public IActionResult Index()
         {
             CargarViewBag();
-            return View(_citas);
+            return View(_citaRepo.ObtenerTodos());
         }
 
         public IActionResult PorPaciente(int pacienteId)
         {
             CargarViewBag();
-            return View(_citas.Where(c => c.PacienteId == pacienteId).ToList());
+            return View(_citaRepo.ObtenerPorPaciente(pacienteId));
         }
 
-        // GET: Crear
         public IActionResult Crear()
         {
             CargarViewBag();
             return View(new Cita());
         }
 
-        // POST: Crear
         [HttpPost]
         public IActionResult Crear(Cita cita)
         {
-            cita.Id = _citas.Any() ? _citas.Max(c => c.Id) + 1 : 1;
-            _citas.Add(cita);
+            _citaRepo.Agregar(cita);
             return RedirectToAction("Index");
         }
 
-        // GET: Editar
         public IActionResult Editar(int id)
         {
-            var cita = _citas.FirstOrDefault(c => c.Id == id);
+            var cita = _citaRepo.ObtenerPorId(id);
             if (cita == null) return NotFound();
             CargarViewBag();
             return View(cita);
         }
 
-        // POST: Editar
         [HttpPost]
         public IActionResult Editar(Cita cita)
         {
-            var existing = _citas.FirstOrDefault(c => c.Id == cita.Id);
-            if (existing == null) return NotFound();
-            existing.PacienteId = cita.PacienteId;
-            existing.MedicoId = cita.MedicoId;
-            existing.Fecha = cita.Fecha;
-            existing.Hora = cita.Hora;
-            existing.Motivo = cita.Motivo;
-            existing.Estado = cita.Estado;
+            _citaRepo.Actualizar(cita);
             return RedirectToAction("Index");
         }
 
-        // Eliminar
         public IActionResult Eliminar(int id)
         {
-            var cita = _citas.FirstOrDefault(c => c.Id == id);
-            if (cita != null) _citas.Remove(cita);
+            _citaRepo.Eliminar(id);
             return RedirectToAction("Index");
         }
     }

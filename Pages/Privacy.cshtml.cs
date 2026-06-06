@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Citas_App.Pages
+namespace CitasApp.Pages
 {
     public class PrivacyModel : PageModel
     {
-        public void OnGet()
-        {
-        }
+        public void OnGet() { }
     }
-
 }

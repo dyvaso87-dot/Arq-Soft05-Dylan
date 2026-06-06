@@ -5,6 +5,31 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bienvenido a Citas App</h1>
+    <p>Selecciona una seccion para comenzar</p>
+</div>
+
+<div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px; position: relative; z-index: 10;">
+
+    <a href="~/Cita/Index"
+           style="display:block; width:180px; padding:30px; background:#0d6efd; color:white;
+        text-align:center; text-decoration:none; border-radius:8px; font-size:18px;
+        position: relative; z-index: 10;">
+        🗓 Citas
+    </a>
+
+    <a href="~/Medico/Index"
+           style="display:block; width:180px; padding:30px; background:#198754; color:white;
+        text-align:center; text-decoration:none; border-radius:8px; font-size:18px;
+        position: relative; z-index: 10;">
+        🩺 Medicos
+    </a>
+
+    <a href="~/Paciente/Index"
+           style="display:block; width:180px; padding:30px; background:#dc3545; color:white;
+        text-align:center; text-decoration:none; border-radius:8px; font-size:18px;
+        position: relative; z-index: 10;">
+        👤 Pacientes
+    </a>
+
 </div>

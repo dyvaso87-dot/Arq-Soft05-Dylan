@@ -1,0 +1,39 @@
+﻿@model CitasApp.Models.Cita
+@using CitasApp.Models
+
+@{
+    var pacientes = ViewBag.Pacientes as List<Paciente>;
+    var medicos = ViewBag.Medicos as List<Medico>;
+}
+
+<h1>Nueva Cita</h1>
+<form method="post">
+    <label>Paciente:</label>
+    <select asp-for="PacienteId">
+        @foreach (var p in pacientes!)
+        {
+            <option value="@p.Id">@p.Nombre @p.Apellido</option>
+        }
+    </select><br />
+    <label>Medico:</label>
+    <select asp-for="MedicoId">
+        @foreach (var m in medicos!)
+        {
+            <option value="@m.Id">@m.Nombre @m.Apellido</option>
+        }
+    </select><br />
+    <label>Fecha:</label>
+    <input asp-for="Fecha" type="date" /><br />
+    <label>Hora:</label>
+    <input asp-for="Hora" type="time" /><br />
+    <label>Motivo:</label>
+    <input asp-for="Motivo" /><br />
+    <label>Estado:</label>
+    <select asp-for="Estado">
+        <option>Pendiente</option>
+        <option>Confirmada</option>
+        <option>Cancelada</option>
+    </select><br /><br />
+    <button type="submit">Guardar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>
