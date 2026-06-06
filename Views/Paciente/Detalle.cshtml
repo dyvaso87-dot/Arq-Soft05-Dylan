@@ -1,7 +1,30 @@
-﻿@model CitasApp.Models.Paciente
-<h1>@Model.Nombre @Model.Apellido</h1>
-<p><strong>Email:</strong> @Model.Email</p>
-<p><strong>Teléfono:</strong> @Model.Telefono</p>
-<a asp-action="Index">← Volver a la lista</a>
-<br />
-<a asp-controller="Cita" asp-action="PorPaciente" asp-route-pacienteId="@Model.Id">Ver sus citas</a>
+@model CitasApp.Models.Paciente
+@{
+    ViewData["Title"] = "Detalle del paciente";
+}
+
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-action="Index" class="btn-back">Volver</a>
+            <h1 class="page-title">Detalle del Paciente</h1>
+            <p class="page-subtitle">Perfil administrativo con datos principales y acceso a sus citas.</p>
+        </div>
+        <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    </div>
+    <article class="detalle-card">
+        <div class="profile-head">
+            <div class="avatar avatar-blue avatar-lg">@Model.Nombre[0]@Model.Apellido[0]</div>
+            <div>
+                <h2>@Model.Nombre @Model.Apellido</h2>
+                <p>Paciente</p>
+            </div>
+        </div>
+        <div class="detalle-row"><span class="detalle-label">Email</span><span class="detalle-value">@Model.Email</span></div>
+        <div class="detalle-row"><span class="detalle-label">Teléfono</span><span class="detalle-value">@Model.Telefono</span></div>
+        <div class="detalle-row">
+            <span class="detalle-label">Citas</span>
+            <span class="detalle-value"><a asp-controller="Cita" asp-action="PorPaciente" asp-route-pacienteId="@Model.Id" class="btn btn-sm btn-outline-primary">Ver citas</a></span>
+        </div>
+    </article>
+</section>

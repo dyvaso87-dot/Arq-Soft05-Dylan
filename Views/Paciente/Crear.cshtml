@@ -1,15 +1,28 @@
-﻿@model CitasApp.Models.Paciente
+@model CitasApp.Models.Paciente
+@{
+    ViewData["Title"] = "Nuevo paciente";
+}
 
-<h1>Nuevo Paciente</h1>
-<form method="post">
-    <label>Nombre:</label>
-    <input asp-for="Nombre" /><br />
-    <label>Apellido:</label>
-    <input asp-for="Apellido" /><br />
-    <label>Email:</label>
-    <input asp-for="Email" /><br />
-    <label>Telefono:</label>
-    <input asp-for="Telefono" /><br /><br />
-    <button type="submit">Guardar</button>
-    <a asp-action="Index">Cancelar</a>
-</form>
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-action="Index" class="btn-back">Volver</a>
+            <h1 class="page-title">Nuevo Paciente</h1>
+            <p class="page-subtitle">Registra datos de contacto con una experiencia clara y profesional.</p>
+        </div>
+    </div>
+    <div class="form-card">
+        <form method="post">
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Nombre</label><input asp-for="Nombre" class="form-control-custom form-control" placeholder="Ej: Ana" /></div>
+                <div class="form-group"><label class="form-label">Apellido</label><input asp-for="Apellido" class="form-control-custom form-control" placeholder="Ej: García" /></div>
+                <div class="form-group"><label class="form-label">Email</label><input asp-for="Email" class="form-control-custom form-control" type="email" placeholder="correo@ejemplo.com" /></div>
+                <div class="form-group"><label class="form-label">Teléfono</label><input asp-for="Telefono" class="form-control-custom form-control" placeholder="Ej: 555-0001" /></div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>

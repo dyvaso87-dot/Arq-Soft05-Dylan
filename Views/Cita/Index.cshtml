@@ -1,41 +1,65 @@
-﻿@model List<CitasApp.Models.Cita>
+@model List<CitasApp.Models.Cita>
 @using CitasApp.Models
-
 @{
+    ViewData["Title"] = "Citas";
     var pacientes = ViewBag.Pacientes as List<Paciente>;
     var medicos = ViewBag.Medicos as List<Medico>;
 }
 
-<h1>Agenda de citas</h1>
-<a asp-action="Crear">+ Nueva cita</a>
-<br />
-<br />
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Paciente</th>
-        <th>Médico</th>
-        <th>Motivo</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach (var c in Model)
-    {
-        var pac = pacientes?.FirstOrDefault(p => p.Id == c.PacienteId);
-        var med = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
-        <tr>
-            <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
-            <td>@c.Hora.ToString("HH:mm")</td>
-            <td>@(pac != null ? $"{pac.Nombre} {pac.Apellido}" : "—")</td>
-            <td>@(med != null ? $"{med.Nombre} {med.Apellido}" : "—")</td>
-            <td>@c.Motivo</td>
-            <td>@c.Estado</td>
-            <td>
-                <a asp-action="Editar" asp-route-id="@c.Id">Editar</a> |
-                <a asp-action="Eliminar" asp-route-id="@c.Id"
-                   onclick="return confirm('¿Eliminar esta cita?')">Eliminar</a>
-            </td>
-        </tr>
-    }
-</table>
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn-back">Inicio</a>
+            <h1 class="page-title">Agenda de Citas</h1>
+            <p class="page-subtitle">Consulta, filtra y administra la agenda clínica con estados claros y acciones rápidas.</p>
+        </div>
+        <a asp-action="Crear" class="btn btn-primary">Nueva cita</a>
+    </div>
+
+    <div class="table-toolbar">
+        <div class="search-box">
+            <input type="search" class="form-control" placeholder="Buscar por paciente, médico, motivo o fecha" data-table-search="#citasTable" />
+        </div>
+        <select class="form-select table-filter" data-table-filter="#citasTable" data-filter-column="5">
+            <option value="">Todos los estados</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Confirmada">Confirmada</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+    </div>
+    <div class="table-card table-responsive">
+        <table class="table modern-table" id="citasTable">
+            <thead>
+                <tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Médico</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    var pac = pacientes?.FirstOrDefault(p => p.Id == c.PacienteId);
+                    var med = medicos?.FirstOrDefault(m => m.Id == c.MedicoId);
+                    var estado = c.Estado?.ToLowerInvariant() ?? "pendiente";
+                    <tr>
+                        <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@c.Hora.ToString("HH:mm")</td>
+                        <td>
+                            <div class="name-cell">
+                                <div class="avatar avatar-blue">@(pac != null ? pac.Nombre[0].ToString() : "?")</div>
+                                <span>@(pac != null ? $"{pac.Nombre} {pac.Apellido}" : "Sin paciente")</span>
+                            </div>
+                        </td>
+                        <td>@(med != null ? $"Dr. {med.Nombre} {med.Apellido}" : "Sin médico")</td>
+                        <td>@c.Motivo</td>
+                        <td><span class="status-badge status-@estado">@c.Estado</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <a asp-action="Editar" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a asp-action="Eliminar" asp-route-id="@c.Id" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta cita?')">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-shell" aria-label="Paginación de citas"></nav>
+</section>

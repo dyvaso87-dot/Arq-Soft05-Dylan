@@ -1,39 +1,66 @@
-﻿@model CitasApp.Models.Cita
+@model CitasApp.Models.Cita
 @using CitasApp.Models
-
 @{
+    ViewData["Title"] = "Nueva cita";
     var pacientes = ViewBag.Pacientes as List<Paciente>;
     var medicos = ViewBag.Medicos as List<Medico>;
 }
 
-<h1>Nueva Cita</h1>
-<form method="post">
-    <label>Paciente:</label>
-    <select asp-for="PacienteId">
-        @foreach (var p in pacientes!)
-        {
-            <option value="@p.Id">@p.Nombre @p.Apellido</option>
-        }
-    </select><br />
-    <label>Medico:</label>
-    <select asp-for="MedicoId">
-        @foreach (var m in medicos!)
-        {
-            <option value="@m.Id">@m.Nombre @m.Apellido</option>
-        }
-    </select><br />
-    <label>Fecha:</label>
-    <input asp-for="Fecha" type="date" /><br />
-    <label>Hora:</label>
-    <input asp-for="Hora" type="time" /><br />
-    <label>Motivo:</label>
-    <input asp-for="Motivo" /><br />
-    <label>Estado:</label>
-    <select asp-for="Estado">
-        <option>Pendiente</option>
-        <option>Confirmada</option>
-        <option>Cancelada</option>
-    </select><br /><br />
-    <button type="submit">Guardar</button>
-    <a asp-action="Index">Cancelar</a>
-</form>
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-action="Index" class="btn-back">Volver</a>
+            <h1 class="page-title">Nueva Cita</h1>
+            <p class="page-subtitle">Agenda una consulta con datos claros, controles amplios y validación visual.</p>
+        </div>
+    </div>
+
+    <div class="form-card appointment-form">
+        <form method="post">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Paciente</label>
+                    <select asp-for="PacienteId" class="form-control-custom form-select">
+                        @foreach (var p in pacientes!)
+                        {
+                            <option value="@p.Id">@p.Nombre @p.Apellido</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Médico</label>
+                    <select asp-for="MedicoId" class="form-control-custom form-select">
+                        @foreach (var m in medicos!)
+                        {
+                            <option value="@m.Id">Dr. @m.Nombre @m.Apellido</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fecha</label>
+                    <input asp-for="Fecha" type="date" class="form-control-custom form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hora</label>
+                    <input asp-for="Hora" type="time" class="form-control-custom form-control" />
+                </div>
+                <div class="form-group form-span">
+                    <label class="form-label">Motivo</label>
+                    <input asp-for="Motivo" class="form-control-custom form-control" placeholder="Describe el motivo de la consulta" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Estado</label>
+                    <select asp-for="Estado" class="form-control-custom form-select">
+                        <option>Pendiente</option>
+                        <option>Confirmada</option>
+                        <option>Cancelada</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>

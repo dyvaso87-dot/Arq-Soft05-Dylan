@@ -1,28 +1,46 @@
-﻿@model List<CitasApp.Models.Paciente>
-<h1>Pacientes registrados</h1>
-<a asp-action="Crear">+ Nuevo paciente</a>
-<br />
-<br />
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach (var p in Model)
-    {
-        <tr>
-            <td>@p.Nombre @p.Apellido</td>
-            <td>@p.Email</td>
-            <td>@p.Telefono</td>
-            <td>
-                <a href="c:\users\dyvas\source\repos\citas_app\views\cita\index.cshtml">c:\users\dyvas\source\repos\citas_app\views\cita\index.cshtml</a>
-                <a asp-action="Detalle" asp-route-id="@p.Id">Ver</a> |
-                <a asp-action="Editar" asp-route-id="@p.Id">Editar</a> |
-                <a asp-action="Eliminar" asp-route-id="@p.Id"
-                   onclick="return confirm('¿Eliminar a @p.Nombre @p.Apellido?')">Eliminar</a>
-            </td>
-        </tr>
-    }
-</table>
+@model List<CitasApp.Models.Paciente>
+@{
+    ViewData["Title"] = "Pacientes";
+}
+
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn-back">Inicio</a>
+            <h1 class="page-title">Pacientes</h1>
+            <p class="page-subtitle">Directorio clínico para revisar datos de contacto y acceder al historial de citas.</p>
+        </div>
+        <a asp-action="Crear" class="btn btn-primary">Nuevo paciente</a>
+    </div>
+
+    <div class="table-toolbar">
+        <div class="search-box">
+            <input type="search" class="form-control" placeholder="Buscar paciente, email o teléfono" data-table-search="#pacientesTable" />
+        </div>
+    </div>
+    <div class="table-card table-responsive">
+        <table class="table modern-table" id="pacientesTable">
+            <thead>
+                <tr><th>Paciente</th><th>Email</th><th>Teléfono</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td><div class="name-cell"><div class="avatar avatar-blue">@p.Nombre[0]@p.Apellido[0]</div><span>@p.Nombre @p.Apellido</span></div></td>
+                        <td>@p.Email</td>
+                        <td>@p.Telefono</td>
+                        <td>
+                            <div class="table-actions">
+                                <a asp-action="Detalle" asp-route-id="@p.Id" class="btn btn-sm btn-secondary">Ver</a>
+                                <a asp-action="Editar" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a asp-action="Eliminar" asp-route-id="@p.Id" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar a @p.Nombre @p.Apellido?')">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-shell" aria-label="Paginación de pacientes"></nav>
+</section>

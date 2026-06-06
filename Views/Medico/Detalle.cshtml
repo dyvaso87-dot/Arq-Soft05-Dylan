@@ -1,5 +1,26 @@
-﻿@model CitasApp.Models.Medico
-<h1>@Model.Nombre @Model.Apellido</h1>
-<p><strong>Especialidad:</strong> @Model.Especialidad</p>
-<p><strong>Número de licencia:</strong> @Model.NumeroLicencia</p>
-<a asp-action="Index">← Volver a la lista</a>
+@model CitasApp.Models.Medico
+@{
+    ViewData["Title"] = "Detalle del médico";
+}
+
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-action="Index" class="btn-back">Volver</a>
+            <h1 class="page-title">Detalle del Médico</h1>
+            <p class="page-subtitle">Perfil profesional con especialidad y licencia médica.</p>
+        </div>
+        <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    </div>
+    <article class="detalle-card">
+        <div class="profile-head">
+            <div class="avatar avatar-green avatar-lg">@Model.Nombre[0]@Model.Apellido[0]</div>
+            <div>
+                <h2>Dr. @Model.Nombre @Model.Apellido</h2>
+                <p>@Model.Especialidad</p>
+            </div>
+        </div>
+        <div class="detalle-row"><span class="detalle-label">Especialidad</span><span class="detalle-value">@Model.Especialidad</span></div>
+        <div class="detalle-row"><span class="detalle-label">Núm. Licencia</span><span class="detalle-value"><code>@Model.NumeroLicencia</code></span></div>
+    </article>
+</section>

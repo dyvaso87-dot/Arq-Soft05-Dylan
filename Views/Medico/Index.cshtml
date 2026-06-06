@@ -1,27 +1,46 @@
-﻿@model List<CitasApp.Models.Medico>
-<h1>Médicos disponibles</h1>
-<a asp-action="Crear">+ Nuevo médico</a>
-<br />
-<br />
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Nombre</th>
-        <th>Especialidad</th>
-        <th>Licencia</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach (var m in Model)
-    {
-        <tr>
-            <td>@m.Nombre @m.Apellido</td>
-            <td>@m.Especialidad</td>
-            <td>@m.NumeroLicencia</td>
-            <td>
-                <a asp-action="Detalle" asp-route-id="@m.Id">Ver</a> |
-                <a asp-action="Editar" asp-route-id="@m.Id">Editar</a> |
-                <a asp-action="Eliminar" asp-route-id="@m.Id"
-                   onclick="return confirm('¿Eliminar a @m.Nombre @m.Apellido?')">Eliminar</a>
-            </td>
-        </tr>
-    }
-</table>
+@model List<CitasApp.Models.Medico>
+@{
+    ViewData["Title"] = "Médicos";
+}
+
+<section class="page-container">
+    <div class="page-header">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn-back">Inicio</a>
+            <h1 class="page-title">Médicos</h1>
+            <p class="page-subtitle">Equipo médico, especialidades y licencias organizadas con lectura empresarial.</p>
+        </div>
+        <a asp-action="Crear" class="btn btn-primary">Nuevo médico</a>
+    </div>
+
+    <div class="table-toolbar">
+        <div class="search-box">
+            <input type="search" class="form-control" placeholder="Buscar médico, especialidad o licencia" data-table-search="#medicosTable" />
+        </div>
+    </div>
+    <div class="table-card table-responsive">
+        <table class="table modern-table" id="medicosTable">
+            <thead>
+                <tr><th>Médico</th><th>Especialidad</th><th>Licencia</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td><div class="name-cell"><div class="avatar avatar-green">@m.Nombre[0]@m.Apellido[0]</div><span>Dr. @m.Nombre @m.Apellido</span></div></td>
+                        <td><span class="badge ca-badge-info">@m.Especialidad</span></td>
+                        <td><code>@m.NumeroLicencia</code></td>
+                        <td>
+                            <div class="table-actions">
+                                <a asp-action="Detalle" asp-route-id="@m.Id" class="btn btn-sm btn-secondary">Ver</a>
+                                <a asp-action="Editar" asp-route-id="@m.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <a asp-action="Eliminar" asp-route-id="@m.Id" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar al Dr. @m.Nombre @m.Apellido?')">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-shell" aria-label="Paginación de médicos"></nav>
+</section>

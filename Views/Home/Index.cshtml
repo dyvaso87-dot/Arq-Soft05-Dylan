@@ -1,30 +1,68 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenido a Citas App</h1>
-    <p>Selecciona una seccion para comenzar</p>
-</div>
+<section class="hero-panel">
+    <div class="hero-copy">
+        <span class="eyebrow">Plataforma médica SaaS</span>
+        <h1>Operación clínica clara, rápida y confiable.</h1>
+        <p>Gestiona citas, pacientes y médicos desde un panel profesional diseñado para consultorios, clínicas y hospitales modernos.</p>
+        <div class="hero-actions">
+            <a asp-controller="Cita" asp-action="Crear" class="btn btn-primary">Nueva cita</a>
+            <a asp-controller="Cita" asp-action="Index" class="btn btn-outline-primary">Ver agenda</a>
+        </div>
+    </div>
+    <div class="hero-dashboard glass">
+        <div class="hero-dashboard-header">
+            <span>Agenda de hoy</span>
+            <span class="badge ca-badge-success">Activo</span>
+        </div>
+        <div class="mini-calendar">
+            <span></span><span></span><span class="active"></span><span></span><span></span>
+        </div>
+        <div class="hero-row"><span>Confirmadas</span><strong>18</strong></div>
+        <div class="hero-row"><span>Pacientes nuevos</span><strong>7</strong></div>
+        <div class="hero-row"><span>Disponibilidad</span><strong>92%</strong></div>
+    </div>
+</section>
 
-<div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
-
-    <a asp-controller="Cita" asp-action="Index"
-       style="display:block; width:180px; padding:30px; background:#0d6efd; color:white;
-              text-align:center; text-decoration:none; border-radius:8px; font-size:18px;">
-        🗓 Citas
+<section class="dashboard-grid">
+    <a asp-controller="Cita" asp-action="Index" class="stat-card module-card">
+        <span class="module-icon">C</span>
+        <p class="stat-label">Agenda</p>
+        <p class="stat-value">Citas</p>
+        <span class="stat-trend">Seguimiento clínico</span>
     </a>
-
-    <a asp-controller="Medico" asp-action="Index"
-       style="display:block; width:180px; padding:30px; background:#198754; color:white;
-              text-align:center; text-decoration:none; border-radius:8px; font-size:18px;">
-        🩺 Medicos
+    <a asp-controller="Paciente" asp-action="Index" class="stat-card module-card">
+        <span class="module-icon success">P</span>
+        <p class="stat-label">Directorio</p>
+        <p class="stat-value">Pacientes</p>
+        <span class="stat-trend">Historial y contacto</span>
     </a>
-
-    <a asp-controller="Paciente" asp-action="Index"
-       style="display:block; width:180px; padding:30px; background:#dc3545; color:white;
-              text-align:center; text-decoration:none; border-radius:8px; font-size:18px;">
-        👤 Pacientes
+    <a asp-controller="Medico" asp-action="Index" class="stat-card module-card">
+        <span class="module-icon info">M</span>
+        <p class="stat-label">Equipo médico</p>
+        <p class="stat-value">Médicos</p>
+        <span class="stat-trend">Especialidades</span>
     </a>
+    <a asp-controller="Home" asp-action="Privacy" class="stat-card module-card">
+        <span class="module-icon neutral">S</span>
+        <p class="stat-label">Confianza</p>
+        <p class="stat-value">Privacy</p>
+        <span class="stat-trend">Datos protegidos</span>
+    </a>
+</section>
 
-</div>
+<section class="ca-section">
+    <div class="ca-section-title">
+        <div>
+            <h2>Resumen operativo</h2>
+            <p class="ca-page-subtitle">Una interfaz pensada para escanear información, actuar rápido y mantener una experiencia consistente en todos los módulos.</p>
+        </div>
+    </div>
+    <div class="insight-grid">
+        <div class="ca-card insight-card"><span class="insight-dot"></span><strong>Flujo de citas</strong><p>Creación, edición y estados visibles con señales de color.</p></div>
+        <div class="ca-card insight-card"><span class="insight-dot success"></span><strong>Gestión de pacientes</strong><p>Datos de contacto, detalles y citas asociadas en una vista limpia.</p></div>
+        <div class="ca-card insight-card"><span class="insight-dot info"></span><strong>Equipo médico</strong><p>Especialidades y licencias con lectura empresarial.</p></div>
+    </div>
+</section>
