@@ -1,0 +1,11 @@
+﻿@model CitasApp.Models.Paciente
+<h1>Editar paciente</h1>
+<form method="post">
+    <input asp-for="Id" type="hidden" />
+    <label>Nombre: <input asp-for="Nombre" /></label><br />
+    <label>Apellido: <input asp-for="Apellido" /></label><br />
+    <label>Email: <input asp-for="Email" /></label><br />
+    <label>Teléfono: <input asp-for="Telefono" /></label><br /><br />
+    <button type="submit">Guardar cambios</button>
+    <a asp-action="Index">Cancelar</a>
+</form>

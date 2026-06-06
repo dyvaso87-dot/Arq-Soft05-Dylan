@@ -1,11 +1,14 @@
 ﻿@model List<CitasApp.Models.Paciente>
 <h1>Pacientes registrados</h1>
+<a asp-action="Crear">+ Nuevo paciente</a>
+<br />
+<br />
 <table border="1" cellpadding="8">
     <tr>
         <th>Nombre</th>
         <th>Email</th>
         <th>Teléfono</th>
-        <th></th>
+        <th>Acciones</th>
     </tr>
     @foreach (var p in Model)
     {
@@ -13,7 +16,12 @@
             <td>@p.Nombre @p.Apellido</td>
             <td>@p.Email</td>
             <td>@p.Telefono</td>
-            <td><a asp-action="Detalle" asp-route-id="@p.Id">Ver detalle</a></td>
+            <td>
+                <a asp-action="Detalle" asp-route-id="@p.Id">Ver</a> |
+                <a asp-action="Editar" asp-route-id="@p.Id">Editar</a> |
+                <a asp-action="Eliminar" asp-route-id="@p.Id"
+                   onclick="return confirm('¿Eliminar a @p.Nombre @p.Apellido?')">Eliminar</a>
+            </td>
         </tr>
     }
 </table>

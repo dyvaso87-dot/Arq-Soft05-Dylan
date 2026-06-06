@@ -1,17 +1,27 @@
 ﻿@model List<CitasApp.Models.Medico>
 <h1>Médicos disponibles</h1>
+<a asp-action="Crear">+ Nuevo médico</a>
+<br />
+<br />
 <table border="1" cellpadding="8">
     <tr>
         <th>Nombre</th>
         <th>Especialidad</th>
-        <th></th>
+        <th>Licencia</th>
+        <th>Acciones</th>
     </tr>
     @foreach (var m in Model)
     {
         <tr>
             <td>@m.Nombre @m.Apellido</td>
             <td>@m.Especialidad</td>
-            <td><a asp-action="Detalle" asp-route-id="@m.Id">Ver detalle</a></td>
+            <td>@m.NumeroLicencia</td>
+            <td>
+                <a asp-action="Detalle" asp-route-id="@m.Id">Ver</a> |
+                <a asp-action="Editar" asp-route-id="@m.Id">Editar</a> |
+                <a asp-action="Eliminar" asp-route-id="@m.Id"
+                   onclick="return confirm('¿Eliminar a @m.Nombre @m.Apellido?')">Eliminar</a>
+            </td>
         </tr>
     }
 </table>
