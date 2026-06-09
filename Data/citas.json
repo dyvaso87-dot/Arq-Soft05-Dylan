@@ -10,8 +10,8 @@
   },
   {
     "Id": 3,
-    "PacienteId": 3,
-    "MedicoId": 1,
+    "PacienteId": 1,
+    "MedicoId": 4,
     "Fecha": "2026-06-03",
     "Hora": "11:00:00",
     "Motivo": "Primera consulta",
@@ -25,5 +25,14 @@
     "Hora": "00:00:00",
     "Motivo": null,
     "Estado": "Pendiente"
+  },
+  {
+    "Id": 5,
+    "PacienteId": 1,
+    "MedicoId": 3,
+    "Fecha": "0001-01-01",
+    "Hora": "00:00:00",
+    "Motivo": null,
+    "Estado": "Confirmada"
   }
 ]
