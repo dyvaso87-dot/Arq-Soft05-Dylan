@@ -19,11 +19,8 @@ Esto evita que el código cliente dependa de una clase concreta.
 ### Observer
 `CitaService` mantiene una lista de `ICitaObserver` y los notifica automáticamente cuando se agrega una nueva cita. `EmailObserver` y `SmsObserver` son observadores concretos que reaccionan a ese evento sin que `CitaService` conozca los detalles de cada canal de notificación.
 
-## Diagrama de Clases
-
-A continuación se muestra el diagrama de clases del proyecto, incluyendo las capas (Domain, Application, Infrastructure) y los tres patrones descritos arriba:
-
-
+## Diagrama UML
+Consulta el diagrama de clases completo aquí: [UML.md](docs/UML.md)
 
 ## Entidades
 - **Paciente** — lista y detalle de pacientes registrados
