@@ -2,14 +2,27 @@
 
 App de citas médicas construida con ASP.NET Core MVC (.NET 8).
 
-## Arquitectura
+## Patrones de Diseño (GOF)
 
-Este proyecto se estaba desarrollando con una arquitectura MVC tradicional, pero se decidió cambiar a una arquitectura Hexagonal.
-Hexagonal (Ports & Adapters) dividida en tres proyectos:
+El proyecto aplica tres patrones de diseño clásicos del catálogo GOF:
 
-- **CitasApp.Domain** — modelos e interfaces (sin dependencias externas)
-- **CitasApp.Infrastructure** — repositorios JSON (implementa las interfaces del Domain)
-- **CitasApp.Web** — controllers, views y configuración (MVC)
+### Factory Method
+`RepositoryFactory` decide en tiempo de ejecución qué implementación de `IPacienteRepository` entregar según el entorno:
+- **Development** → `JsonPacienteRepository` (persiste en archivos JSON)
+- **Production** → `MemoriaPacienteRepository` (datos en memoria)
+
+Esto evita que el código cliente dependa de una clase concreta.
+
+### Decorator
+`LoggingPacienteRepository` envuelve cualquier `IPacienteRepository` y le agrega logging con timestamp antes/después de cada operación, sin modificar ni heredar de la implementación original.
+
+### Observer
+`CitaService` mantiene una lista de `ICitaObserver` y los notifica automáticamente cuando se agrega una nueva cita. `EmailObserver` y `SmsObserver` son observadores concretos que reaccionan a ese evento sin que `CitaService` conozca los detalles de cada canal de notificación.
+
+## Diagrama de Clases
+
+A continuación se muestra el diagrama de clases del proyecto, incluyendo las capas (Domain, Application, Infrastructure) y los tres patrones descritos arriba:
+
 
 
 ## Entidades
