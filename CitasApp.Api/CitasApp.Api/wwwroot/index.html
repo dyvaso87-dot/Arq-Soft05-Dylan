@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora API</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body {
+            background: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            padding: 32px;
+            width: 100%;
+            max-width: 420px;
+        }
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #111827;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        .inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #374151;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #111827;
+            transition: border-color 0.15s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+        }
+        .ops {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .op-btn {
+            border: 1.5px solid #d1d5db;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 12px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .op-btn:hover {
+            border-color: #1a56db;
+            background: #ebf1ff;
+            color: #1a56db;
+        }
+        .op-btn.active {
+            background: #1a56db;
+            border-color: #1a56db;
+            color: #ffffff;
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1a56db;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .calc-btn:hover { background: #1345b7; }
+        .result-box {
+            margin-top: 20px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .result-label {
+            font-size: 0.72rem;
+            color: #9ca3af;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a56db;
+        }
+        .result-value.error {
+            color: #c81e1e;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Calculadora</h1>
+        <div class="subtitle">Consume la API de CitasApp.Api</div>
+
+        <div class="inputs">
+            <div>
+                <label for="numA">Valor A</label>
+                <input type="number" id="numA" value="0" step="any" />
+            </div>
+            <div>
+                <label for="numB">Valor B</label>
+                <input type="number" id="numB" value="0" step="any" />
+            </div>
+        </div>
+
+        <div class="ops">
+            <button class="op-btn active" data-op="sumar">+</button>
+            <button class="op-btn" data-op="restar">−</button>
+            <button class="op-btn" data-op="multiplicar">×</button>
+            <button class="op-btn" data-op="dividir">÷</button>
+        </div>
+
+        <button class="calc-btn" id="calcularBtn">Calcular</button>
+
+        <div class="result-box">
+            <div class="result-label">Resultado</div>
+            <div class="result-value" id="resultado">—</div>
+        </div>
+    </div>
+
+    <script>
+        let operacionActual = 'sumar';
+
+        document.querySelectorAll('.op-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                operacionActual = btn.dataset.op;
+            });
+        });
+
+        document.getElementById('calcularBtn').addEventListener('click', async () => {
+            const a = document.getElementById('numA').value;
+            const b = document.getElementById('numB').value;
+            const resultadoEl = document.getElementById('resultado');
+
+            resultadoEl.textContent = '...';
+            resultadoEl.classList.remove('error');
+
+            try {
+                const res = await fetch(`/api/Calculadora/${operacionActual}?a=${a}&b=${b}`);
+                const data = await res.json();
+
+                if (!res.ok) {
+                    resultadoEl.classList.add('error');
+                    resultadoEl.textContent = data.error || 'Error en la operación';
+                } else {
+                    resultadoEl.textContent = data.resultado;
+                }
+            } catch (err) {
+                resultadoEl.classList.add('error');
+                resultadoEl.textContent = 'No se pudo conectar con la API';
+            }
+        });
+    </script>
+</body>
+</html>
