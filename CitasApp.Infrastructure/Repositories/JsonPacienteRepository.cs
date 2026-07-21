@@ -1,25 +1,30 @@
-﻿using CitasApp.Interfaces;
-using CitasApp.Models;
+﻿using CitasApp.Domain.Interfaces;
+using CitasApp.Domain.Models;
 using System.Text.Json;
 
-namespace CitasApp.Repositories
+namespace CitasApp.Infrastructure.Repositories
 {
     public class JsonPacienteRepository : IPacienteRepository
     {
-        private readonly string _path = "Data/pacientes.json";
+        private readonly string _path;
+        private readonly JsonSerializerOptions _options = new() { WriteIndented = true };
+
+        public JsonPacienteRepository(string contentRootPath)
+        {
+            _path = Path.Combine(contentRootPath, "Data", "pacientes.json");
+        }
 
         private List<Paciente> Leer()
         {
-            if (!File.Exists(_path)) return new List<Paciente>();
+            if (!File.Exists(_path)) return new();
             var json = File.ReadAllText(_path);
-            return JsonSerializer.Deserialize<List<Paciente>>(json) ?? new List<Paciente>();
+            return JsonSerializer.Deserialize<List<Paciente>>(json, _options) ?? new();
         }
 
         private void Guardar(List<Paciente> lista)
         {
-            Directory.CreateDirectory("Data");
-            var json = JsonSerializer.Serialize(lista, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_path, json);
+            Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
+            File.WriteAllText(_path, JsonSerializer.Serialize(lista, _options));
         }
 
         public List<Paciente> ObtenerTodos() => Leer();
@@ -50,11 +55,7 @@ namespace CitasApp.Repositories
         {
             var lista = Leer();
             var paciente = lista.FirstOrDefault(p => p.Id == id);
-            if (paciente != null)
-            {
-                lista.Remove(paciente);
-                Guardar(lista);
-            }
+            if (paciente != null) { lista.Remove(paciente); Guardar(lista); }
         }
     }
 }

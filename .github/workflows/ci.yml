@@ -10,7 +10,11 @@ jobs:
       - name: Configurar .NET
         uses: actions/setup-dotnet@v4
         with:
+<<<<<<< HEAD
           dotnet-version: '10.0.x'
+=======
+          dotnet-version: '9.0.x'
+>>>>>>> dc931372908a1323195e1c46f7ab6619a683beb8
       - name: Restaurar
         run: dotnet restore
       - name: Compilar

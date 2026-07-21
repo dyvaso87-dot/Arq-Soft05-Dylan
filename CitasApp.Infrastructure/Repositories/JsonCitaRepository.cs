@@ -1,17 +1,17 @@
-﻿using CitasApp.Interfaces;
-using CitasApp.Models;
+﻿using CitasApp.Domain.Interfaces;
+using CitasApp.Domain.Models;
 using System.Text.Json;
 
-namespace CitasApp.Repositories
+namespace CitasApp.Infrastructure.Repositories
 {
     public class JsonCitaRepository : ICitaRepository
     {
         private readonly string _path;
         private readonly JsonSerializerOptions _options = new() { WriteIndented = true };
 
-        public JsonCitaRepository(IWebHostEnvironment env)
+        public JsonCitaRepository(string contentRootPath)
         {
-            _path = Path.Combine(env.ContentRootPath, "Data", "citas.json");
+            _path = Path.Combine(contentRootPath, "Data", "citas.json");
         }
 
         private List<Cita> Leer()

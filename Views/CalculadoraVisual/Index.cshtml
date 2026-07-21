@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Calculadora Gamer";
+}
+
+<div class="calc-container">
+    <div class="calc-card">
+        <div class="calc-header">
+            <h3>⚡ CALCULADORA CORE ⚡</h3>
+        </div>
+        
+        <form asp-action="Index" method="post">
+            <div class="form-group mb-3">
+                <label class="calc-label">OPERANDO A</label>
+                <input type="number" step="any" name="num1" class="calc-input" value="@ViewBag.Num1" required />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="calc-label">OPERANDO B</label>
+                <input type="number" step="any" name="num2" class="calc-input" value="@ViewBag.Num2" required />
+            </div>
+
+            <div class="form-group mb-4">
+                <label class="calc-label">OPERACIÓN SYSTEM</label>
+                <select name="operacion" class="calc-input">
+                    <!option value="suma" @(ViewBag.Operacion == "suma" ? "selected" : "")>➕ SUMAR</!option>
+                    <!option value="resta" @(ViewBag.Operacion == "resta" ? "selected" : "")>➖ RESTAR</!option>
+                    <!option value="multiplicar" @(ViewBag.Operacion == "multiplicar" ? "selected" : "")>✖️ MULTIPLICAR</!option>
+                    <!option value="dividir" @(ViewBag.Operacion == "dividir" ? "selected" : "")>➗ DIVIDIR</!option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-calc-execute">EJECUTAR OPERACIÓN</button>
+        </form>
+
+        <div class="calc-screen-result mt-4">
+            <span class="screen-title">OUTPUT SYSTEM:</span>
+            @if (ViewBag.Error != null)
+            {
+                <div class="text-danger font-monospace mt-1">⚠️ ERROR: @ViewBag.Error</div>
+            }
+            else
+            {
+                <div class="screen-value mt-1">@ViewBag.Resultado</div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .calc-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+    }
+    .calc-card {
+        background-color: #121214;
+        border: 3px solid #00ff66;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+        padding: 30px;
+        width: 100%;
+        max-width: 450px;
+    }
+    .calc-header h3 {
+        color: #00ff66;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        text-align: center;
+        letter-spacing: 2px;
+        margin-bottom: 25px;
+        text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+    }
+    .calc-label {
+        color: #888894;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.85rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .calc-input {
+        background-color: #1a1a1e !important;
+        border: 2px solid #33333a !important;
+        color: #ffffff !important;
+        font-family: monospace;
+        border-radius: 6px;
+        padding: 10px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    .calc-input:focus {
+        border-color: #00ff66 !important;
+        box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+        outline: none;
+    }
+    .btn-calc-execute {
+        background-color: #00ff66;
+        border: none;
+        border-radius: 6px;
+        color: #000000;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding: 12px;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 255, 102, 0.3);
+    }
+    .btn-calc-execute:hover {
+        background-color: #00cc52;
+        transform: translateY(-2px);
+    }
+    .calc-screen-result {
+        background-color: #0a0a0c;
+        border-left: 4px solid #00ff66;
+        padding: 15px;
+        border-radius: 4px;
+    }
+    .screen-title {
+        color: #555562;
+        font-family: monospace;
+        font-size: 0.8rem;
+        display: block;
+    }
+    .screen-value {
+        color: #00ff66;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 2rem;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+    }
+</style>
