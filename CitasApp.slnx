@@ -3,5 +3,6 @@
   <Project Path="../CitasApp.Application/CitasApp.Application.csproj" Id="0b6ba37d-89c5-47d5-948a-f68fd3bb3971" />
   <Project Path="../CitasApp.Domain/CitasApp.Domain.csproj" Id="a9515ada-8137-42c5-b045-8d17a26c5b8b" />
   <Project Path="../CitasApp.Infrastructure/CitasApp.Infrastructure.csproj" />
+  <Project Path="../CitasApp.xUnit/CitasApp.xUnit.csproj" Id="04457df7-da64-47f2-8bce-e4be1a987a15" />
   <Project Path="CitasApp.Web.csproj" />
 </Solution>
